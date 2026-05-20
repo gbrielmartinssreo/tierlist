@@ -1,36 +1,46 @@
-import { ActivityLog } from '../types';
-import { formatDate } from '../utils/storage';
-import '../styles/ActivityPanel.css';
+import React from "react";
+import { ActivityLog } from "../types";
+import { formatDate } from "../utils/storage";
+import "../styles/ActivityPanel.css";
 
 interface ActivityPanelProps {
   activities: ActivityLog[];
+  onClear: () => void;
 }
 
-export const ActivityPanel: React.FC<ActivityPanelProps> = ({ activities }) => {
-  const sortedActivities = [...activities].sort((a, b) => b.timestamp - a.timestamp);
-
+export const ActivityPanel: React.FC<ActivityPanelProps> = ({
+  activities,
+  onClear,
+}) => {
   return (
-    <div className="activity-panel">
+    <div className="activity-panel" id="activityPanel">
       <div className="activity-header">
-        <h3>📝 Registro de Atividades</h3>
-        <p className="activity-count">Total: {activities.length}</p>
+        <h3>⚡ Atividade Recente</h3>
+        {activities.length > 0 && (
+          <button onClick={onClear} className="btn-small btn-danger">
+            Limpar
+          </button>
+        )}
       </div>
 
       <div className="activity-list">
-        {sortedActivities.length === 0 ? (
+        {activities.length === 0 ? (
           <p className="empty-message">Nenhuma atividade registrada ainda</p>
         ) : (
-          sortedActivities.map((activity) => (
-            <div key={activity.id} className="activity-item">
-              <div className="activity-main">
-                <strong className="activity-user">{activity.userName}</strong>
-                <span className="activity-action">{activity.action}</span>
+          [...activities]
+            .reverse()
+            .slice(0, 50)
+            .map((activity) => (
+              <div key={activity.id} className="activity-item">
+                <div>
+                  <span className="activity-user">{activity.userName}</span>
+                  <span className="activity-action">{activity.action}</span>
+                </div>
+                <span className="activity-time">
+                  {formatDate(activity.timestamp)}
+                </span>
               </div>
-              <div className="activity-time">
-                {formatDate(activity.timestamp)}
-              </div>
-            </div>
-          ))
+            ))
         )}
       </div>
     </div>

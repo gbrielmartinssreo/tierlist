@@ -1,3 +1,4 @@
+import React from 'react';
 import { storage } from '../utils/storage';
 import '../styles/SavedListsPanel.css';
 
@@ -18,7 +19,7 @@ export const SavedListsPanel: React.FC<SavedListsPanelProps> = ({ onSelect }) =>
   return (
     <div className="saved-lists-panel">
       <div className="saved-lists-header">
-        <h3>📋 Minhas Tier Lists</h3>
+        <h3>📂 Minhas Tier Lists</h3>
       </div>
 
       <div className="saved-lists-container">

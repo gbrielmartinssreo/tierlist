@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { TierItem } from "../types";
+import { optimizeImage } from "../utils/imageOptimizer";
 import "../styles/ItemCard.css";
 
 interface ItemCardProps {
@@ -25,17 +26,19 @@ export const ItemCard: React.FC<ItemCardProps> = ({
 
   const handleImageSelect = (file?: File) => {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      onUpdate({ image: e.target?.result as string });
-    };
-    reader.readAsDataURL(file);
+    optimizeImage(file)
+      .then((optimizedUrl) => {
+        onUpdate({ image: optimizedUrl });
+      })
+      .catch((err) => {
+        console.error("Erro ao otimizar imagem:", err);
+      });
   };
 
   return (
-    <div className="item-card">
+    <div className={`item-card ${item.image ? "has-image" : ""}`}>
       {item.image && (
-        <img src={item.image} alt={item.name} className="item-image" />
+        <img src={item.image} alt={item.name} className="item-image" referrerPolicy="no-referrer" />
       )}
 
       <div className="item-content">
@@ -51,9 +54,9 @@ export const ItemCard: React.FC<ItemCardProps> = ({
             <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
               <label
                 className="btn btn-secondary btn-small"
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", fontSize: "10px", padding: "2px 4px" }}
               >
-                Selecionar imagem
+                Imagem
                 <input
                   type="file"
                   accept="image/*"
@@ -61,32 +64,33 @@ export const ItemCard: React.FC<ItemCardProps> = ({
                   style={{ display: "none" }}
                 />
               </label>
-
               <button
                 onClick={() => onUpdate({ image: undefined })}
                 className="btn-small"
+                style={{ fontSize: "10px", padding: "2px 4px" }}
               >
-                Remover imagem
+                Remover
               </button>
-
+            </div>
+            <div style={{ display: "flex", gap: 4, marginTop: 4 }}>
               <button onClick={handleSaveEdit} className="btn-small">
-                ✓
+                ✔
               </button>
               <button onClick={() => setIsEditing(false)} className="btn-small">
-                ✕
+                ✖
               </button>
             </div>
           </div>
         ) : (
           <div className="item-display">
-            <span className="item-name">{item.name}</span>
+            <span className="item-name" title={item.name}>{item.name}</span>
             <div className="item-actions">
               <button
                 onClick={() => setIsEditing(true)}
                 className="btn-icon"
                 title="Editar"
               >
-                ✎
+                ✏
               </button>
               <button
                 onClick={onRemove}

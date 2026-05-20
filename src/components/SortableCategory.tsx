@@ -49,10 +49,6 @@ export const SortableCategory: React.FC<SortableCategoryProps> = ({
         <CategoryRow
           category={category}
           onUpdate={onUpdate}
-          onRemove={onRemove}
-          onAddItem={onAddItem}
-          onMoveUp={onMoveUp}
-          onMoveDown={onMoveDown}
         />
       </div>
       <div className="items-container">

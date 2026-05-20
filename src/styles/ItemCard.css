@@ -1,20 +1,23 @@
 .item-card {
-    width: 100px;
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0.5rem;
+    width: 86px;
+    height: 86px;
+    background: #111111;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
     overflow: hidden;
     cursor: grab;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.1s ease, border-color 0.1s ease;
     position: relative;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .item-card:hover {
-    transform: translateY(-4px) scale(1.05);
-    border-color: var(--accent);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5), 0 0 10px rgba(192, 132, 252, 0.2);
-    z-index: 10;
+    transform: scale(1.05);
+    border-color: #3b82f6;
+    z-index: 200;
 }
 
 .item-card:active {
@@ -23,28 +26,63 @@
 
 .item-image {
     width: 100%;
-    height: 100px;
+    height: 100%;
     object-fit: cover;
     display: block;
     background: #000;
+    /* Hardware accelerated anti-aliasing for beautiful high-res downscaling */
+    image-rendering: auto;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    will-change: transform;
 }
 
 .item-content {
-    padding: 0.4rem;
-    background: rgba(30, 41, 59, 0.9);
+    padding: 0.25rem;
+    background: rgba(15, 23, 42, 0.95);
+    border-top: 1px solid #1e293b;
+}
+
+/* If the card has an image, the image is standard 100% height inside active tiers, making it fully filled! */
+.item-card.has-image {
+    padding: 0;
+}
+
+.item-card.has-image .item-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.85);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    border-top: none;
+    z-index: 5;
+}
+
+.item-card.has-image:hover .item-content {
+    opacity: 1;
+}
+
+.item-card.has-image .item-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .item-display {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.4rem;
+    justify-content: center;
+    gap: 0.25rem;
 }
 
 .item-name {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     font-weight: 600;
-    color: white;
+    color: #f1f5f9;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
@@ -54,9 +92,9 @@
 
 .item-actions {
     display: flex;
-    gap: 0.25rem;
+    gap: 0.2rem;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.1s ease;
 }
 
 .item-card:hover .item-actions {
@@ -66,15 +104,48 @@
 .item-edit {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.25rem;
+    width: 100%;
+    background: #0f172a;
+    padding: 2px;
 }
 
 .item-input {
     width: 100%;
-    padding: 0.2rem;
-    font-size: 0.75rem;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--accent);
+    padding: 0.15rem;
+    font-size: 0.65rem;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #3b82f6;
     color: white;
-    border-radius: 0.25rem;
+    border-radius: 2px;
+    outline: none;
+}
+
+/* Active Tier Row Specific Overrides (To replicate the pristine, seamless, borderless design from the image) */
+.tier-row .item-card {
+    width: 96px;
+    height: 96px;
+    min-width: 96px;
+    min-height: 96px;
+    border-radius: 0 !important; /* Strict flat edge corners inside active list row */
+    border: none !important;
+    background: #000000;
+    box-shadow: none;
+    margin: 0;
+}
+
+.tier-row .item-card .item-image {
+    border-radius: 0 !important;
+}
+
+.tier-row .item-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    z-index: 100;
+}
+
+/* In the pool (Items area) the cards are nice and spaced */
+.pool-container .item-card {
+    border-radius: 4px;
+    border: 1px solid #334155;
 }

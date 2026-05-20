@@ -1,11 +1,13 @@
+@import "tailwindcss";
+
 :root {
     --primary-color: #7e22ce;
     --secondary-color: #4f46e5;
     --success-color: #059669;
     --danger-color: #dc2626;
     --warning-color: #d97706;
-    --background: #0f172a; /* Darker navy */
-    --surface: #1e293b; /* Darker slate */
+    --background: #0f172a;
+    --surface: #1e293b;
     --surface-hover: #334155;
     --text: #f1f5f9;
     --text-secondary: #94a3b8;

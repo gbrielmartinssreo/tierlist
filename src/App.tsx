@@ -1,36 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Home } from "./pages/Home";
 import { Editor } from "./pages/Editor";
-import "./App.css";
+import { TierList } from "./types";
 
-type View = "home" | "editor";
+export default function App() {
+  const [path, setPath] = useState(window.location.pathname);
+  const [currentList, setCurrentList] = useState<TierList | null>(null);
 
-interface NavigationData {
-  tierListId?: string;
-}
+  useEffect(() => {
+    const handlePopState = () => {
+      setPath(window.location.pathname);
+    };
 
-function App() {
-  const [currentView, setCurrentView] = useState<View>("home");
-  const [navigationData, setNavigationData] = useState<NavigationData>({});
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
 
-  const handleNavigate = (view: View, data?: NavigationData) => {
-    setCurrentView(view);
-    if (data) {
-      setNavigationData(data);
-    }
+  const handleStartEditor = (list: TierList) => {
+    setCurrentList(list);
   };
 
   return (
-    <div className="app">
-      {currentView === "home" && <Home onNavigate={handleNavigate} />}
-      {currentView === "editor" && navigationData.tierListId && (
-        <Editor
-          tierListId={navigationData.tierListId}
-          onNavigate={handleNavigate}
-        />
+    <>
+      {path.startsWith("/editor") ? (
+        <Editor currentList={currentList} onSetCurrentList={setCurrentList} />
+      ) : (
+        <Home onStartEditor={handleStartEditor} />
       )}
-    </div>
+    </>
   );
 }
-
-export default App;

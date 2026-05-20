@@ -31,6 +31,7 @@ export interface TierList {
   activities: ActivityLog[];
   createdAt: number;
   updatedAt: number;
+  favorite?: boolean;
 }
 
 export interface User {
