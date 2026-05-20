@@ -1,0 +1,152 @@
+.editor-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+}
+
+.editor-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 2rem;
+  color: var(--text);
+}
+
+.editor-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.header-left h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.user-info {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.header-right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.export-dropdown {
+  position: relative;
+}
+
+.export-dropdown > .btn {
+  position: relative;
+  z-index: 1;
+}
+
+.export-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  display: none;
+  z-index: 10;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  background: transparent;
+  color: var(--text);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dropdown-menu button:last-child {
+  border-bottom: none;
+}
+
+.dropdown-menu button:hover {
+  background: var(--border-color);
+}
+
+.dropdown-menu button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editor-main {
+  flex: 1;
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  overflow: auto;
+}
+
+.editor-canvas-wrapper {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+}
+
+.tier-list-wrapper {
+  margin: 0 auto;
+  background: var(--background);
+}
+
+@media (max-width: 1024px) {
+  .editor-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .editor-main {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .editor-header {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .header-left h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-right {
+    gap: 0.5rem;
+  }
+
+  .editor-main {
+    padding: 1rem;
+    gap: 1rem;
+  }
+}
